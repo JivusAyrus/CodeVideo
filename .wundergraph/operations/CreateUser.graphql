@@ -1,0 +1,10 @@
+mutation ($email: String!, $name: String!, $picture: String)
+@internalOperation {
+  codeVideoDB_upsertOneUser(
+    where: { email: $email }
+    update: { picture: {set: $picture }}
+    create: { email: $email, name: $name, picture: $picture }
+  ) {
+    id
+  }
+}

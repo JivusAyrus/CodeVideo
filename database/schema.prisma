@@ -1,0 +1,21 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://admin:admin@localhost:54322/codevideo?schema=public"
+}
+
+model Video {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  code      String   @db.VarChar(255)
+  creator   User     @relation(fields: [creatorId], references: [id])
+  creatorId Int
+}
+
+model User {
+  id      Int     @id @default(autoincrement())
+  email   String  @unique
+  name    String?
+  picture String?
+  videos  Video[]
+}
