@@ -14,6 +14,7 @@
     "migrate": "cd database && prisma format && prisma migrate dev --name"
   },
   "dependencies": {
+    "@emotion/css": "^11.9.0",
     "@wundergraph/nextjs": "^0.1.6",
     "@wundergraph/sdk": "^0.100.0",
     "graphql": "^16.3.0",
