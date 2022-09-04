@@ -1,0 +1,7 @@
+mutation ($email: String! @fromClaim(name:EMAIL), $code: String!, ) {
+    codeVideoDB_createOneVideo( 
+      data: {code: $code, User:{connect:{email: $email}}  }
+    ) {
+      id
+    }
+}
