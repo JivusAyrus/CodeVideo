@@ -11,7 +11,14 @@ CodeVideo is a product that helps you to make code explanation videos. It's quic
     node color_codes.js
     ```
 3. Clone this repository and `cd` into it.
-4. Install the dependencies, setup the database and minio(object storage) and then run the project.
+4. Add .env in the root folder and the format of the env is shown below
+    ```shell
+    NODE_ENV='development'
+    GOOGLE_CLIENT_ID=''
+    GOOGLE_CLIENT_SECRET=''
+    ```
+    Google client id and client secret are auth credentials
+5. Install the dependencies, setup the database and minio(object storage) and then run the project.
 
 
     ```shell
