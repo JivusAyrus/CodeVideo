@@ -1,7 +1,5 @@
 import { useRef, useState } from "react";
 import { saveAs } from "file-saver";
-import { extension } from "mime-types";
-// import { getSeekableWebM } from "utils/src";
 
 const types = [
   "video/x-matroska;codecs=avc1",
@@ -41,7 +39,6 @@ const useCanvasRecorder = ({
 
   const handleDataAvailable = (event: BlobEvent): any => {
     if (event.data && event.data.size > 0) {
-      console.log(event.data.size)
       recordedBlobs.current.push(event.data);
     }
   };
@@ -99,7 +96,6 @@ const useCanvasRecorder = ({
   };
 
   const stopRecording = () => {
-    console.log('stop')
     if (mediaRecorder?.state === "inactive") return;
     if (mediaRecorder?.state === "recording") {
       try {
@@ -119,14 +115,6 @@ const useCanvasRecorder = ({
   const getBlobs = async () => {
     try {
       const superblob = new Blob(recordedBlobs.current, { type });
-      // const arrayBuffer = await superblob.arrayBuffer();
-      // if (arrayBuffer) {
-      //   try {
-      //   //   return getSeekableWebM(arrayBuffer);
-      //   } catch (e) {
-      //     console.error(e);
-      //   }
-      // }
       return superblob;
     } catch (e) {
       console.error(e);
