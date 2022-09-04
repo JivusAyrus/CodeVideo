@@ -2,7 +2,12 @@ import { nanoid } from "nanoid";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { AuthProviders, useMutation, useWunderGraph } from "../components/generated/nextjs";
+import {
+  AuthProviders,
+  S3Provider,
+  useMutation,
+  useWunderGraph,
+} from "../components/generated/nextjs";
 import useCanvasRecorder from "../hooks/useCanvasRecorder";
 import { codeStore, microphoneIdStore, stateStore } from "../stores/stores";
 import Configuration from "./components/Configuration";
@@ -12,7 +17,7 @@ const CanvasComponent = dynamic(() => import("./components/CanvasComponent"), {
 });
 
 export default function Home() {
-  const { user, login, logout } = useWunderGraph();
+  const { user, login, logout, uploadFiles } = useWunderGraph();
   const [state, setState] = useRecoilState(stateStore);
   const microphoneId = useRecoilValue(microphoneIdStore);
   const code = useRecoilValue(codeStore);
@@ -21,24 +26,47 @@ export default function Home() {
   const { startRecording, stopRecording, getBlobs, download, reset } =
     useCanvasRecorder({});
 
-  const {mutate:createVideo}  = useMutation.CreateVideo()
+  const { mutate: createVideo } = useMutation.CreateVideo();
 
   const prepareVideo = async () => {
     const blob = await getBlobs();
     if (!blob || blob?.size <= 0) {
       console.log("Could not produce the video");
-      setState('ready')
+      setState("ready");
       return;
     }
     setVideoURL(URL.createObjectURL(blob));
     setState("preview");
   };
 
+  const saveAndContinue = async () => {
+    setState("ready");
+    download();
+    const blob = await getBlobs();
+    const myFile = new File([blob], `${nanoid()}.webm`, {
+      type: blob.type,
+    });
+    var dt = new DataTransfer();
+    dt.items.add(myFile);
+    var file_list = dt.files;
+    const result = await uploadFiles({
+      provider: S3Provider.minio,
+      files: file_list,
+    });
+    if (result.status === "ok")
+      createVideo({
+        input: {
+          code,
+          videoObjectName: result.fileKeys[0],
+        },
+      });
+  };
+
   const start = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: microphoneId },
     });
-    setMicrophoneStream(stream)
+    setMicrophoneStream(stream);
     const canvas = document
       .getElementsByClassName("konvajs-content")[0]
       .getElementsByTagName("canvas")[0];
@@ -156,13 +184,7 @@ export default function Home() {
                   className="flex gap-x-2 items-center bg-green-500 text-white font-main px-4 py-2 rounded-md text-size-sm-title"
                   type="button"
                   onClick={() => {
-                    setState("ready");
-                    createVideo({
-                      input:{
-                        code,
-                      }
-                    })
-                    download();
+                    saveAndContinue();
                   }}
                 >
                   Save and download
