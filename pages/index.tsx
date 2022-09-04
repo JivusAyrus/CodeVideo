@@ -45,10 +45,8 @@ export default function Home() {
 
   const captureCanvas = async () => {
     const thumbnailURL = stageRef.current.toDataURL();
-    const thumbnailBlob = await fetch(thumbnailURL).then(
-      (r) => r.blob()
-    );
-    saveAs(thumbnailBlob, 'Code.png');
+    const thumbnailBlob = await fetch(thumbnailURL).then((r) => r.blob());
+    saveAs(thumbnailBlob, "Code.png");
   };
 
   const saveAndContinue = async () => {
@@ -139,6 +137,7 @@ export default function Home() {
           <hr />
           <Configuration />
         </div>
+        {/* Canvas or video based on state */}
         <div className="col-span-4 col-start-2">
           {state !== "preview" && <CanvasComponent stageRef={stageRef} />}
           {state === "preview" && (
@@ -153,6 +152,7 @@ export default function Home() {
               />
             </div>
           )}
+          {/* Controls */}
           <div className=" absolute bottom-4 pl-4">
             {state === "ready" && (
               <div className="flex gap-x-4">
