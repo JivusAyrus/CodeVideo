@@ -51,8 +51,8 @@ configureWunderGraphApplication({
     {
       name: "minio",
       endpoint: "127.0.0.1:9000",
-      accessKeyID: "test",
-      secretAccessKey: "12345678",
+      accessKeyID: "minio",
+      secretAccessKey: "minio123",
       bucketLocation: "eu-central-1",
       bucketName: "uploads",
       useSSL: false,
@@ -73,10 +73,7 @@ configureWunderGraphApplication({
   ],
   cors: {
     ...cors.allowAll,
-    allowedOrigins:
-      process.env.NODE_ENV === "production"
-        ? ["http://localhost:3000"]
-        : ["http://localhost:3000"],
+    allowedOrigins: ["http://localhost:3000"],
   },
   authentication: {
     cookieBased: {
