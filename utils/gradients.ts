@@ -97,4 +97,10 @@ export const gradients: Gradient[] = [
     values: [0, "#0093e9", 1, "#80d0c7"],
     cssString: "linear-gradient(160deg,#0093e9 0,#80d0c7 100%)",
   },
+  {
+    id: 15,
+    angle: 180,
+    values: [0, "#50cc7f", 1, "#f5d100"],
+    cssString: "linear-gradient(to bottom,#50cc7f 0,#f5d100 100%);",
+  },
 ];
