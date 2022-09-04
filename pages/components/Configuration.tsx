@@ -89,7 +89,7 @@ const Configuration = () => {
       </div>
       <h1 className="font-bold font-main text-white p-4">Font Size</h1>
       <div className="px-4 pb-4 border-b border-gray-700 flex justify-around gap-x-2">
-        {[16, 20, 24].map((size) => (
+        {[12, 16, 20].map((size) => (
           <button
             type="button"
             onClick={() => {
