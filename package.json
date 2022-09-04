@@ -17,12 +17,17 @@
     "@emotion/css": "^11.9.0",
     "@wundergraph/nextjs": "^0.1.6",
     "@wundergraph/sdk": "^0.100.0",
+    "file-saver": "^2.0.5",
     "graphql": "^16.3.0",
-    "konva": "^8.3.10",
+    "konva": "^8.3.12",
+    "mime-types": "^2.1.35",
+    "nanoid": "^4.0.0",
     "next": "^12.1.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-konva": "^17.0.2-5"
+    "react-konva": "^18.2.1",
+    "react-konva-utils": "^0.3.0",
+    "recoil": "^0.7.5"
   },
   "devDependencies": {
     "@types/node": "^17.0.27",
