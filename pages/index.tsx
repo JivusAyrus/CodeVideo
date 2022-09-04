@@ -1,6 +1,7 @@
+import Konva from "konva";
 import { nanoid } from "nanoid";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   AuthProviders,
@@ -11,6 +12,7 @@ import {
 import useCanvasRecorder from "../hooks/useCanvasRecorder";
 import { codeStore, microphoneIdStore, stateStore } from "../stores/stores";
 import Configuration from "./components/Configuration";
+import { saveAs } from "file-saver";
 
 const CanvasComponent = dynamic(() => import("./components/CanvasComponent"), {
   ssr: false,
@@ -26,6 +28,8 @@ export default function Home() {
   const { startRecording, stopRecording, getBlobs, download, reset } =
     useCanvasRecorder({});
 
+  const stageRef = useRef<Konva.Stage>(null);
+
   const { mutate: createVideo } = useMutation.CreateVideo();
 
   const prepareVideo = async () => {
@@ -37,6 +41,14 @@ export default function Home() {
     }
     setVideoURL(URL.createObjectURL(blob));
     setState("preview");
+  };
+
+  const captureCanvas = async () => {
+    const thumbnailURL = stageRef.current.toDataURL();
+    const thumbnailBlob = await fetch(thumbnailURL).then(
+      (r) => r.blob()
+    );
+    saveAs(thumbnailBlob, 'Code.png');
   };
 
   const saveAndContinue = async () => {
@@ -128,7 +140,7 @@ export default function Home() {
           <Configuration />
         </div>
         <div className="col-span-4 col-start-2">
-          {state !== "preview" && <CanvasComponent />}
+          {state !== "preview" && <CanvasComponent stageRef={stageRef} />}
           {state === "preview" && (
             <div className="flex flex-col h-screen justify-center items-center p-16">
               <video
@@ -143,17 +155,28 @@ export default function Home() {
           )}
           <div className=" absolute bottom-4 pl-4">
             {state === "ready" && (
-              <button
-                className="flex gap-x-2 items-center bg-red-500 text-white font-main px-4 py-2 rounded-md text-size-sm-title"
-                type="button"
-                onClick={() => {
-                  setState("recording");
-                  start();
-                }}
-              >
-                <div className="w-3 h-3 bg-white rounded-full" />
-                Start Recording
-              </button>
+              <div className="flex gap-x-4">
+                <button
+                  className="flex gap-x-2 items-center bg-red-500 text-white font-main px-4 py-2 rounded-md text-size-sm-title"
+                  type="button"
+                  onClick={() => {
+                    setState("recording");
+                    start();
+                  }}
+                >
+                  <div className="w-3 h-3 bg-white rounded-full" />
+                  Start Recording
+                </button>
+                <button
+                  className="items-center bg-green-500 text-white font-main px-4 py-2 rounded-md text-size-sm-title"
+                  type="button"
+                  onClick={() => {
+                    captureCanvas();
+                  }}
+                >
+                  Capture Canvas
+                </button>
+              </div>
             )}
             {state === "recording" && (
               <button

@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 import { Circle, Group, Layer, Rect, Stage } from "react-konva";
 import {
   useRecoilBridgeAcrossReactRoots_UNSTABLE,
@@ -24,7 +24,11 @@ import { clipRect, getGradientConfig } from "../../utils/utils";
 import EditableText from "./EditableText";
 import { getRenderedTokens, RenderTokens } from "./TypingEffect";
 
-const CanvasComponent = () => {
+const CanvasComponent = ({
+  stageRef,
+}: {
+  stageRef: MutableRefObject<Konva.Stage>;
+}) => {
   Konva.pixelRatio = 2;
   const Bridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
 
@@ -65,11 +69,11 @@ const CanvasComponent = () => {
     });
   }, [code, codeLanguage]);
 
-  useEffect(()=>{
-    if(result.status === 'ok'){
-      setColorCodes(result.data.colorcodes_postColorCodes.data)
+  useEffect(() => {
+    if (result.status === "ok") {
+      setColorCodes(result.data.colorcodes_postColorCodes.data);
     }
-  },[result])
+  }, [result]);
 
   useEffect(() => {
     if (
@@ -96,7 +100,7 @@ const CanvasComponent = () => {
   return (
     <>
       <div className="flex flex-col h-screen justify-center items-center">
-        <Stage className="mt-auto mb-auto" width={width} height={height}>
+        <Stage className="mt-auto mb-auto" width={width} height={height} ref={stageRef}>
           <Bridge>
             <Layer>
               <Rect
