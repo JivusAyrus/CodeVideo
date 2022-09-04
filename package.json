@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"npm run nextDev\" \"npm run wundergraph\" \"npm run browser\"",
+    "database": "cd database && docker-compose up -d && npm run migrate init",
+    "minio": "cd minio && sh setup.sh",
     "wundergraph": "wunderctl up --debug",
     "browser": "wait-on \"http-get://localhost:3000\" && wait-on \"http-get://localhost:9991\" && open-cli http://localhost:3000",
     "build": "next build",
