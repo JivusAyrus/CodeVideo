@@ -1,7 +1,7 @@
 # CodeVideo
 CodeVideo is a product that helps you to make code explanation videos. It's quick and easy, so  anybody can create beautiful code videos without any hassle at all. It also lets you capture beautiful code images.
 
-## Getting Started
+## Local Development Environment
 
 1. Clone this [`Color Code Repository`](https://github.com/JivusAyrus/color-code) and `cd` into it.
 2. Install dependencies by running, Compile typescript and run the web server  `npm install`.
@@ -20,3 +20,5 @@ CodeVideo is a product that helps you to make code explanation videos. It's quic
     npm run minio
     npm start
     ```
+## Requirements
+- Node version 16
