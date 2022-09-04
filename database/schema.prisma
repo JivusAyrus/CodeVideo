@@ -4,12 +4,12 @@ datasource db {
 }
 
 model Video {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  code      String   @db.VarChar(255)
-  creator   User     @relation(fields: [creatorId], references: [id])
-  creatorId Int
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  code         String   @db.VarChar(255)
+  Creator      User     @relation(fields: [creatorEmail], references: [email], onDelete: Cascade)
+  creatorEmail String
 }
 
 model User {
