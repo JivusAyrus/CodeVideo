@@ -1,27 +1,28 @@
 import {
-	Application,
-	authProviders,
-	configureWunderGraphApplication,
-	cors,
-	introspect,
-	templates,
-} from '@wundergraph/sdk';
-import { NextJsTemplate } from '@wundergraph/nextjs/dist/template';
-import server from './wundergraph.server';
-import operations from './wundergraph.operations';
+  Application,
+  authProviders,
+  configureWunderGraphApplication,
+  cors,
+  introspect,
+  templates,
+} from "@wundergraph/sdk";
+import { NextJsTemplate } from "@wundergraph/nextjs/dist/template";
+import server from "./wundergraph.server";
+import operations from "./wundergraph.operations";
 // import linkBuilder from "./generated/linkbuilder";
 
 const codeVideoDB = introspect.postgresql({
   apiNamespace: "codeVideoDB",
   databaseURL:
     "postgresql://admin:admin@localhost:54322/codevideo?schema=public",
+  introspection: {
+    pollingIntervalSeconds: 10,
+  },
 });
 
 const myApplication = new Application({
   name: "api",
-  apis: [
-    codeVideoDB,
-  ],
+  apis: [codeVideoDB],
 });
 
 // configureWunderGraph emits the configuration
@@ -71,8 +72,8 @@ configureWunderGraphApplication({
       providers: [
         authProviders.google({
           id: "google",
-          clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
-          clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET as string,
+          clientId: process.env.GOOGLE_CLIENT_ID as string,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }),
       ],
       authorizedRedirectUris: ["http://localhost:3000/"],
