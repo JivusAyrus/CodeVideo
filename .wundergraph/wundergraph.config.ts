@@ -20,9 +20,20 @@ const codeVideoDB = introspect.postgresql({
   },
 });
 
+const colorcodes = introspect.openApi({
+  apiNamespace: "colorcodes",
+  source: {
+    kind: "file",
+    filePath: "colorcodes.yaml",
+  },
+  introspection: {
+    pollingIntervalSeconds: 10,
+  },
+});
+
 const myApplication = new Application({
   name: "api",
-  apis: [codeVideoDB],
+  apis: [codeVideoDB, colorcodes],
 });
 
 // configureWunderGraph emits the configuration

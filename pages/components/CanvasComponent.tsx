@@ -5,6 +5,7 @@ import {
   useRecoilBridgeAcrossReactRoots_UNSTABLE,
   useRecoilValue,
 } from "recoil";
+import { useMutation } from "../../components/generated/nextjs";
 import useCode from "../../hooks/useCode";
 import {
   canvasBgGradientStore,
@@ -19,7 +20,7 @@ import {
   GradientConfig,
   Position,
 } from "../../utils/interfaces";
-import { clipRect, getColorCodes, getGradientConfig } from "../../utils/utils";
+import { clipRect, getGradientConfig } from "../../utils/utils";
 import EditableText from "./EditableText";
 import { getRenderedTokens, RenderTokens } from "./TypingEffect";
 
@@ -51,19 +52,24 @@ const CanvasComponent = () => {
 
   const { initUseCode } = useCode();
 
+  const { mutate: getColorCodes, result } = useMutation.GetColorCodes();
+
   useEffect(() => {
     setGradientConfig(getGradientConfig({ gradient, width, height }));
   }, [width, height, gradient]);
 
   useEffect(() => {
     // get color codes
-    (async () => {
-      const { data, success } = await getColorCodes(code, codeLanguage);
-      if (success) {
-        setColorCodes(data);
-      }
-    })();
-  }, [code,codeLanguage]);
+    getColorCodes({
+      input: { code, language: codeLanguage, theme: "dark_plus" },
+    });
+  }, [code, codeLanguage]);
+
+  useEffect(()=>{
+    if(result.status === 'ok'){
+      setColorCodes(result.data.colorcodes_postColorCodes.data)
+    }
+  },[result])
 
   useEffect(() => {
     if (

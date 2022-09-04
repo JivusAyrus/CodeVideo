@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ClipConfig, Gradient, GradientConfig } from "./interfaces";
 
 export const getGradientConfig = ({
@@ -53,33 +52,4 @@ export const clipRect = (ctx: any, clipConfig: ClipConfig) => {
   ctx.arcTo(x, y + h, x, y, r);
   ctx.arcTo(x, y, x + w, y, r);
   ctx.closePath();
-};
-
-export const getColorCodes = async (
-  code: string,
-  language: string,
-) => {
-  try {
-    const {
-      data: { success, data },
-    } = await axios.post(
-      'http://localhost:4000/color-codes',
-      {
-        code,
-        language,
-        theme: 'dark_plus',
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    if (!success) throw Error("Failed to get color codes");
-    return { data, success };
-  } catch (e) {
-    throw new Error(
-      (e as any).response.message || (e as any).response.data.error
-    );
-  }
 };

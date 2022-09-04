@@ -1,0 +1,10 @@
+mutation($code: String!, $theme: String!, $language: String!){
+    colorcodes_postColorCodes(postColorCodesInput: {code:$code,language:$language,theme:$theme}) {
+      success
+      data {
+        content
+        color
+        lineNumber
+      }
+    }
+}
