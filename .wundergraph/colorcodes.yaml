@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: colorcodes
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:4000'
+paths:
+  /color-codes:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                theme:
+                  type: string
+                language:
+                  type: string
+              required:
+                - code
+                - theme
+                - language
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        content:
+                          type: string
+                        color:
+                          type: string
+                        lineNumber:
+                          type: number
+
+                      
