@@ -10,7 +10,12 @@ import {
   useWunderGraph,
 } from "../components/generated/nextjs";
 import useCanvasRecorder from "../hooks/useCanvasRecorder";
-import { codeStore, microphoneIdStore, stateStore } from "../stores/stores";
+import {
+  canvasDimensionsStore,
+  codeStore,
+  microphoneIdStore,
+  stateStore,
+} from "../stores/stores";
 import Configuration from "./components/Configuration";
 import { saveAs } from "file-saver";
 
@@ -23,6 +28,7 @@ export default function Home() {
   const [state, setState] = useRecoilState(stateStore);
   const microphoneId = useRecoilValue(microphoneIdStore);
   const code = useRecoilValue(codeStore);
+  const { width, height } = useRecoilValue(canvasDimensionsStore);
   const [videoURL, setVideoURL] = useState("");
   const [microphoneStream, setMicrophoneStream] = useState<MediaStream>();
   const { startRecording, stopRecording, getBlobs, download, reset } =
@@ -141,10 +147,10 @@ export default function Home() {
         <div className="col-span-4 col-start-2">
           {state !== "preview" && <CanvasComponent stageRef={stageRef} />}
           {state === "preview" && (
-            <div className="flex flex-col h-screen justify-center items-center p-16">
+            <div className="flex flex-col w-full h-full justify-center items-center">
               <video
-                height="auto"
-                className="w-full"
+                height={height}
+                width={width}
                 controls
                 autoPlay={false}
                 src={videoURL}
