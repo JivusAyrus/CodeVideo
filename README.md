@@ -4,7 +4,7 @@ CodeVideo is a product that helps you to make code explanation videos. It's quic
 ## Local Development Environment
 
 1. Clone this [`Color Code Repository`](https://github.com/JivusAyrus/color-code) and `cd` into it.
-2. Install dependencies by running, Compile typescript and run the web server  `npm install`.
+2. Install dependencies by running, Compile typescript and run the web server.
     ```shell
     npm install
     npm run compile
