@@ -29,3 +29,4 @@ CodeVideo is a product that helps you to make code explanation videos. It's quic
     ```
 ## Requirements
 - Node version 16
+- Docker/Docker Desktop
