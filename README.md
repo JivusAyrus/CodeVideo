@@ -1,6 +1,9 @@
 # CodeVideo
 CodeVideo is a product that helps you to make code explanation videos. It's quick and easy, so  anybody can create beautiful code videos without any hassle at all. It also lets you capture beautiful code images.
 
+## Product Walkthrough
+https://www.loom.com/share/245714c39460441aba4d9994959d65b8
+
 ## Local Development Environment
 
 1. Clone this [`Color Code Repository`](https://github.com/JivusAyrus/color-code) and `cd` into it.
