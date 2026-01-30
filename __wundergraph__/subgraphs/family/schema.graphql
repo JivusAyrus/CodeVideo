@@ -1,0 +1,134 @@
+schema @link(url: "https://specs.apollo.dev/federation/v2.5", import: ["@authenticated", "@composeDirective", "@external", "@extends", "@inaccessible", "@interfaceObject", "@override", "@provides", "@key", "@requires", "@requiresScopes", "@shareable", "@tag"]) {
+  query: Query
+}
+
+directive @key(fields: openfed__FieldSet!, resolvable: Boolean = true) repeatable on INTERFACE | OBJECT
+
+directive @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA
+
+directive @shareable repeatable on FIELD_DEFINITION | OBJECT
+
+type Alligator implements Animal & Pet {
+  class: Class!
+  dangerous: String!
+  gender: Gender!
+  name: String!
+}
+
+interface Animal {
+  class: Class!
+  gender: Gender!
+}
+
+type Cat implements Animal & Pet {
+  class: Class!
+  gender: Gender!
+  name: String!
+  type: CatType!
+}
+
+enum CatType {
+  HOME
+  STREET
+}
+
+enum Class {
+  FISH
+  MAMMAL
+  REPTILE
+}
+
+type Details {
+  forename: String! @shareable
+  hasChildren: Boolean!
+  maritalStatus: MaritalStatus
+  middlename: String @deprecated(reason: "No longer supported")
+  nationality: Nationality!
+  pets: [Pet]
+  surname: String! @shareable
+}
+
+type Dog implements Animal & Pet {
+  breed: DogBreed!
+  class: Class!
+  gender: Gender!
+  name: String!
+}
+
+enum DogBreed {
+  GOLDEN_RETRIEVER
+  POODLE
+  ROTTWEILER
+  YORKSHIRE_TERRIER
+}
+
+type Employee @key(fields: "id") {
+  details: Details @shareable
+  e: Boolean
+  id: Int!
+}
+
+enum Gender {
+  FEMALE
+  MALE
+  UNKNOWN
+}
+
+enum MaritalStatus {
+  ENGAGED
+  MARRIED
+}
+
+type Mouse implements Animal & Pet {
+  class: Class!
+  gender: Gender!
+  name: String!
+}
+
+enum Nationality {
+  AMERICAN
+  DUTCH
+  ENGLISH
+  GERMAN
+  INDIAN
+  SPANISH
+  UKRAINIAN
+}
+
+input NestedSearchInput {
+  hasChildren: Boolean
+  maritalStatus: MaritalStatus
+}
+
+interface Pet implements Animal {
+  class: Class!
+  gender: Gender!
+  name: String!
+}
+
+type Pony implements Animal & Pet {
+  class: Class!
+  gender: Gender!
+  name: String!
+}
+
+type Query {
+  """ This is a GraphQL query that retrieves a list of employees."""
+  findEmployees(criteria: SearchInput): [Employee!]!
+}
+
+""" Allows to filter employees by their details. """
+input SearchInput {
+  hasPets: Boolean
+  nationality: Nationality
+  nested: NestedSearchInput
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  EXECUTION
+  SECURITY
+}
+
+scalar openfed__FieldSet
